@@ -9,7 +9,7 @@ namespace Infrastructure.DataAccess.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("users");
+            builder.ToTable("Users");
 
             builder.HasKey(x => x.Id);
 
