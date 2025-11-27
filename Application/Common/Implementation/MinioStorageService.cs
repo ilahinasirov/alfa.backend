@@ -44,5 +44,20 @@ namespace Application.Common.Implementation
 
             return $"https://{settings.Endpoint}/{settings.Bucket}/{objectName}";
         }
+        public async Task<MemoryStream> DownloadAsync(string objectName)
+        {
+            var memoryStream = new MemoryStream();
+
+            await _minioClient.GetObjectAsync(new GetObjectArgs()
+                .WithBucket(settings.Bucket)
+                .WithObject(objectName)
+                .WithCallbackStream(stream =>
+                {
+                    stream.CopyTo(memoryStream);
+                }));
+
+            memoryStream.Position = 0;
+            return memoryStream;
+        }
     }
 }
